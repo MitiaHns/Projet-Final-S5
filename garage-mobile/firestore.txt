@@ -1,0 +1,109 @@
+1. Roles Collection (roles)
+This collection defines the roles in your system.
+Collection Name: roles
+Document ID: admin
+name: "admin"
+Document ID: client
+name: "client"
+
+2. Users Collection (users)
+This collection stores information about users (authenticated via Firebase Auth).
+Collection Name: users
+Document ID: uid_12345 (Firebase Authentication UID)
+name: String (Full name of the user)
+email: String (User's email address)
+role: Reference to roles/admin or roles/client
+created_at: Timestamp (The creation date of the user)
+fcm_token: String (User's Firebase Cloud Messaging token for notifications)
+
+3. RepairTypes Collection (repairTypes)
+This collection defines the different types of repairs.
+Collection Name: repairTypes
+Document ID: frein
+name: "Frein"
+duree: integer
+prix: double
+Document ID: vidange
+name: "Vidange"
+duree: integer
+prix: double
+Document ID: filtre
+name: "Filtre"
+duree: integer
+prix: double
+
+4. Cars Collection (cars)
+This collection stores information about the cars registered by users.
+Collection Name: cars
+Document ID: car123
+user: Reference to users/uid_12345 (The user who owns the car)
+model: String (Car model)
+plate_number: String (Unique car plate number)
+created_at: Timestamp (When the car was registered)
+
+5. Slots Collection (slots)
+This collection tracks parking slots.
+Collection Name: slots
+Document ID: slot1
+slot_number: Integer (Slot number, e.g., 1, 2, etc.)
+is_occupied: Boolean (Whether the slot is currently occupied)
+created_at: Timestamp (When the slot was created)
+
+6. Car_Slot_Association Collection (carSlotAssociations)
+This collection links cars to parking slots.
+Collection Name: carSlotAssociations
+Document ID: association123
+car: Reference to cars/car123 (The car that is parked)
+slot: Reference to slots/slot1 (The parking slot)
+start_time: Timestamp (When the car was parked)
+end_time: Timestamp (When the car leaves the slot, optional)
+
+7. Status Collection (statuses)
+This collection defines the different statuses of a repair.
+Collection Name: statuses
+Document ID: en_cours
+name: "en_cours" (In progress)
+Document ID: terminée
+name: "terminée" (Completed)
+Document ID: en_attente
+name: "en_attente" (Pending)
+
+8. Repairs Collection (repairs)
+This collection stores information about repairs being performed on cars.
+Collection Name: repairs
+Document ID: repair123
+car: Reference to cars/car123 (The car that is being repaired)
+repair_type: Reference to repairTypes/frein (The type of repair)
+start_time: Timestamp (When the repair started)
+end_time: Timestamp (When the repair was completed)
+price: Decimal (The cost of the repair)
+duration_seconds: Integer (Duration of the repair in seconds)
+
+9. Repair_Status Collection (repairStatuses)
+This collection stores updates for the status of repairs.
+Collection Name: repairStatuses
+Document ID: statusUpdate123
+repair: Reference to repairs/repair123 (The repair being updated)
+status: Reference to statuses/en_cours (The current status of the repair)
+timestamp: Timestamp (When the status was updated)
+changed_by: Reference to users/uid_12345 (The user who changed the status)
+
+10. Payments Collection (payments)
+This collection tracks payments made by users for car repairs.
+Collection Name: payments
+Document ID: payment123
+car: Reference to cars/car123 (The car that was paid for)
+user: Reference to users/uid_12345 (The user who made the payment)
+amount: Decimal (The payment amount)
+payment_date: Timestamp (When the payment was made)
+
+11. Notifications Collection (notifications)
+This collection tracks notifications sent to users (via Firebase Cloud Messaging).
+Collection Name: notifications
+Document ID: notification123
+user: Reference to users/uid_12345 (The user who will receive the notification)
+message: String (The notification message, e.g., "Your repair status has been updated")
+is_read: Boolean (Whether the user has read the notification)
+sent_at: Timestamp (When the notification was sent)
+type: String (Optional: Type of notification, e.g., repair, payment)
+additional_data: Map (Optional: Store additional data, such as repair details, payment info, etc.)
